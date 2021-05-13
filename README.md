@@ -2,7 +2,7 @@
 
 https://simple-e-commerce-20210513.netlify.app/
 
-![FireShot Capture 138 - Sample Shop - 609bd4a856ccd01cbac2b86c--priceless-clarke-3f37be netlify app](https://user-images.githubusercontent.com/51913879/117981788-57761e80-b370-11eb-8079-3571b020c6d6.png)
+![FireShot Capture 145 - React App - localhost](https://user-images.githubusercontent.com/51913879/118161406-810b7480-b45a-11eb-8ce8-8b284fa6aae2.png)
 
 React × TypeScript × Stripe × Netlify Functionsで作ったサーバーレスな決済基盤を持つECサイト。
 
