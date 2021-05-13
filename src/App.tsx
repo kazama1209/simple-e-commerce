@@ -1,5 +1,7 @@
 import React, { useState } from "react"
-import { Elements, StripeProvider } from "react-stripe-elements"
+
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
 
 import { Container, Grid } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
@@ -40,14 +42,15 @@ const App: React.FC = () => {
       const item = products.find(item => item.id === id)
       return [...cartItems, { ...item, quantity: 1 }]
     })
-
-    console.log(process.env.REACT_APP_STRIPE_SECRET_KEY)
   }
 
   const totalCost = cartItems.reduce(
     (acc: number, item: CartItemType) => acc + (item.price || 0) * item.quantity,
     0
   )
+
+  const stripePublicKey = process.env.REACT_APP_STRIPE_PUBLIC_KEY || ""
+  const stripePromise = loadStripe(stripePublicKey)
 
   return (
     <>
@@ -75,11 +78,9 @@ const App: React.FC = () => {
             setCartItems={setCartItems}
           />
           { cartItems.length > 0 && (
-            <StripeProvider apiKey="pk_test_51IpukVDCJ1EogeD3j6yaJ4aguH7xLeeI2hWtSHw0tn17QYZNNeQdLCfW0cXrUi70up8BOlAVUzuKHHrSc1khngsC00oWa6JXwt">
-              <Elements>
-                <CheckoutForm totalCost={totalCost} />
-              </Elements>
-            </StripeProvider>
+            <Elements stripe={stripePromise}>
+              <CheckoutForm totalCost={totalCost} />
+            </Elements>
           )}
         </Container>
       </main>

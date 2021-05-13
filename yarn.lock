@@ -2080,6 +2080,18 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stripe/react-stripe-js@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.4.0.tgz#a67e72202297fc409dc2c8c4f3fb98e0b61fa06d"
+  integrity sha512-Pz5QmG8PgJ3pi8gOWxlngk+ns63p2L1Ds192fn55ykZNRKfGz3G6sfssUVThHn/NAt2Hp1eCEsy/hvlKnXJI6g==
+  dependencies:
+    prop-types "^15.7.2"
+
+"@stripe/stripe-js@^1.14.0":
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.14.0.tgz#0eb8a185197948ab9ddb62ee28ae555e7d90bc72"
+  integrity sha512-Zw4EI+ph8RPxRpIX2uwKKDIbe7WM2OarasPjIPRulU1UCj8lRFqWWW/fTj79lZtnX3FNZkiTRM13UG1UZF7yjQ==
+
 "@surma/rollup-plugin-off-main-thread@^1.1.1":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-1.4.2.tgz#e6786b6af5799f82f7ab3a82e53f6182d2b91a58"
@@ -2411,14 +2423,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-stripe-elements@^6.0.4":
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@types/react-stripe-elements/-/react-stripe-elements-6.0.4.tgz#0931064941b4f74e25edb8955703eee90774a057"
-  integrity sha512-EzEeBiOwQJ0fPzZhtg9zqyy5GJbEbi0sFNFCowFXmRwraRcMRyZ4p2UK8nylzfCR2KtMPZ2fgUVH9xD/VL/StQ==
-  dependencies:
-    "@types/react" "*"
-    "@types/stripe-v3" "*"
-
 "@types/react-transition-group@^4.2.0":
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.1.tgz#e1a3cb278df7f47f17b5082b1b3da17170bd44b1"
@@ -2456,11 +2460,6 @@
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.0.tgz#7036640b4e21cc2f259ae826ce843d277dad8cff"
   integrity sha512-RJJrrySY7A8havqpGObOB4W92QXKJo63/jFLLgpvOtsGUqbQZ9Sbgl35KMm1DjC6j7AvmmU2bIno+3IyEaemaw==
-
-"@types/stripe-v3@*":
-  version "3.1.23"
-  resolved "https://registry.yarnpkg.com/@types/stripe-v3/-/stripe-v3-3.1.23.tgz#ef8bab5448f610e2d0467bea0a59881e69e2c4e4"
-  integrity sha512-fqCnai832M6o6qH6A+Dqk1I/SXAzx629bknbrDigyvkuAPGZGrjkLCMxfnrtWswHXNPjj/TtuGf4lQnDXc815w==
 
 "@types/stripe@^8.0.417":
   version "8.0.417"
@@ -9762,7 +9761,7 @@ prompts@2.4.0, prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@15.7.2, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10074,13 +10073,6 @@ react-scripts@4.0.3:
     workbox-webpack-plugin "5.1.4"
   optionalDependencies:
     fsevents "^2.1.3"
-
-react-stripe-elements@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/react-stripe-elements/-/react-stripe-elements-6.1.2.tgz#bd277e86d0b868a6fac9358df09e0d38149b6736"
-  integrity sha512-gYbYhVVJm3Woc84TgmuiqUj44rI/BZGUVUTTmS0U6kZyZa5fYMPlKKIsVZdQZufQ7Ab4BXLO2LSxBlGY0s2jew==
-  dependencies:
-    prop-types "15.7.2"
 
 react-transition-group@^4.4.0:
   version "4.4.1"

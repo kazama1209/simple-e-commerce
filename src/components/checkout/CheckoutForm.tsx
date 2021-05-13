@@ -1,5 +1,6 @@
 import React, { useState } from "react"
-import { CardElement, injectStripe } from "react-stripe-elements"
+
+import { CardElement, useStripe, useElements, } from "@stripe/react-stripe-js"
 
 import { makeStyles } from "@material-ui/core/styles"
 import { Container } from "@material-ui/core"
@@ -75,11 +76,10 @@ const CompletionDialog = ({ open, title, text, handleClose }: CompletionDialogPr
 }
 
 interface CheckoutFormProps {
-  stripe?: any
   totalCost: number
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ stripe, totalCost}) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalCost}) => {
   const classes = useStyles()
 
   const [status, setStatus] = useState<string>("default")
@@ -93,33 +93,78 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ stripe, totalCost}) => {
     setOpen(false)
   }
 
+  const stripe = useStripe()
+  const elements = useElements()
+
+  // paymentIntents用
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
     setStatus("submitting")
 
     try {
-      const { token } = await stripe.createToken({ name: "TestUser" })
-
-      const res = await fetch("/.netlify/functions/charge", {
+      const res = await fetch("/.netlify/functions/paymentIntents", {
         method: "POST",
         body: JSON.stringify({
-          amount: totalCost,
-          token: token.id,
-        })
+          amount: totalCost
+        }),
+        headers: { "Content-Type": "application/json" }
       })
 
-      if (res.ok) {
-        setStatus("complete")
+      const data = await res.json()
+      const secret = data.client_secret
+
+      const card = elements?.getElement(CardElement) || { "token": ""}
+
+      const result = await stripe?.confirmCardPayment(secret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: "Test User"
+          }
+        }
+      })
+
+      if (result?.paymentIntent?.status === "succeeded") {
+        setStatus("succeeded")
       } else {
         throw new Error("Network response was not ok.")
       }
     } catch (err) {
-      setStatus("error")
+      setStatus("failed")
     }
 
     handleOpen()
   }
+
+  // // charge用
+  // const handleSubmit = async (e: any) => {
+  //   e.preventDefault()
+
+  //   setStatus("submitting")
+
+  //   try {
+  //     const { token } = await stripe.createToken({ name: "TestUser" })
+
+  //     const res = await fetch("/.netlify/functions/charge", {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         amount: totalCost,
+  //         token: token.id,
+  //       })
+  //     })
+
+  //     if (res.ok) {
+  //       setStatus("succeeded")
+  //     } else {
+  //       throw new Error("Network response was not ok.")
+  //     }
+  //   } catch (err) {
+  //     setStatus("failed")
+  //   }
+
+  //   handleOpen()
+  // }
 
   return (
     <Container className={classes.container}>
@@ -138,12 +183,12 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ stripe, totalCost}) => {
       </form>
       <CompletionDialog
         open={open}
-        title={status === "complete" ? "Success" : "Error"}
-        text={status === "complete" ? "Thank you, your payment was successful!" : "Sorry, something went wrong. Please check your credit card information again."}
+        title={status === "succeeded" ? "Succeeded!" : "Failed"}
+        text={status === "succeeded" ? "Thank you, your payment was successful!" : "Sorry, something went wrong. Please check your credit card information again."}
         handleClose={handleClose}
       />
     </Container>
   )
 }
 
-export default injectStripe(CheckoutForm)
+export default CheckoutForm

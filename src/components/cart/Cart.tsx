@@ -56,7 +56,7 @@ const Cart: React.FC<CartProps> = ({ cartItems, totalCost, setCartItems }) => {
               className={classes.resetBtn}
               onClick={handleResetCart}
             >
-              Reset cart
+              Clear cart
             </Button>
           </>
         ) : (
