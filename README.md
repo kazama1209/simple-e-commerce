@@ -1,10 +1,14 @@
 # simple-e-commerce
 
+https://simple-e-commerce-20210513.netlify.app/
+
 ![FireShot Capture 138 - Sample Shop - 609bd4a856ccd01cbac2b86c--priceless-clarke-3f37be netlify app](https://user-images.githubusercontent.com/51913879/117981788-57761e80-b370-11eb-8079-3571b020c6d6.png)
 
 React × TypeScript × Stripe × Netlify Functionsで作ったサーバーレスな決済基盤を持つECサイト。
 
-https://609bd4a856ccd01cbac2b86c--priceless-clarke-3f37be.netlify.app/
+詳細はQiitaにて記載。
+
+https://qiita.com/kazama1209/items/375ab7747fc3df6c79d2
 
 ## セットアップ
 
