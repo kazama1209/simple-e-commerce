@@ -32,13 +32,13 @@ const CartItem: React.FC<CartItemProps> = ({ title, quantity, cost }) => {
   return (
     <>
       <Grid container spacing={3} justify="center" className={classes.container}>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={4} className={classes.item}>
           {title}
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={4} className={classes.item}>
           {quantity}
         </Grid>
-        <Grid item xs={3} className={classes.item}>
+        <Grid item xs={4} className={classes.item}>
           ¥{cost}
         </Grid>
       </Grid>

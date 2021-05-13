@@ -42,6 +42,7 @@ interface CompletionDialogProps {
   handleClose: VoidFunction
 }
 
+// 決済処理後に表示するダイアログ（成功時も失敗時も）
 const CompletionDialog = ({ open, title, text, handleClose }: CompletionDialogProps) => {
   const classes = useStyles()
 
@@ -82,7 +83,7 @@ interface CheckoutFormProps {
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalCost}) => {
   const classes = useStyles()
 
-  const [status, setStatus] = useState<string>("default")
+  const [status, setStatus] = useState<"default" | "submitting" | "succeeded" | "failed">("default")
   const [open, setOpen] = useState<boolean>(false)
 
   const handleOpen = () => {
@@ -96,9 +97,17 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalCost}) => {
   const stripe = useStripe()
   const elements = useElements()
 
-  // paymentIntents用
+  // Stripeの決済方法はCharges APIとPayment Intents APIの２種類があるのでどちらかを選択
+  // Charges: シンプルな一方、SCA対応していないためセキュリティ度はやや低い
+  // Payment Intents: Chargesに比べて支払いまでのプロセスが増える一方、SCA対応しているためセキュリティ度は高い
+  // 参照: https://stripe.com/docs/payments/payment-intents/migration/charges#understanding-the-stripe-payment-apis
+  // 必ずしもどちらが良いかというわけではなく上手く使い分けるのが望ましいらしいが、今後の新機能はPayment Intents APIのみに追加されるとの事
+
+  // なので今回はPayment Intents API方式で実装
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+
+    if (!stripe || !elements) return
 
     setStatus("submitting")
 
@@ -112,15 +121,17 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalCost}) => {
       })
 
       const data = await res.json()
-      const secret = data.client_secret
+      const client_secret = data.client_secret // レスポンス内からclient_secretを取得
 
-      const card = elements?.getElement(CardElement) || { "token": ""}
+      const card = elements?.getElement(CardElement) || { "token": ""} // クレジットカード情報を取得
 
-      const result = await stripe?.confirmCardPayment(secret, {
+      // 決済処理
+      const result = await stripe?.confirmCardPayment(client_secret, {
         payment_method: {
           card: card,
           billing_details: {
             name: "Test User"
+            // 他にもaddress（住所）、email（メールアドレス）、phone（電話番号）などが付与可能
           }
         }
       })
@@ -137,16 +148,16 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalCost}) => {
     handleOpen()
   }
 
-  // // charge用
+  // // 参考までにChargesだとこんな感じ
   // const handleSubmit = async (e: any) => {
   //   e.preventDefault()
 
   //   setStatus("submitting")
 
   //   try {
-  //     const { token } = await stripe.createToken({ name: "TestUser" })
+  //     const { token } = await stripe?.createToken({ name: "TestUser" })
 
-  //     const res = await fetch("/.netlify/functions/charge", {
+  //     const res = await fetch("/.netlify/functions/charges", {
   //       method: "POST",
   //       body: JSON.stringify({
   //         amount: totalCost,
@@ -174,7 +185,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalCost}) => {
         <Button
           type="submit"
           variant="outlined"
-          disabled={status === "submitting"}
+          disabled={status === "submitting"} // submitting中は再度ボタンを押せないように
           startIcon={<KeyboardArrowUpIcon />}
           className={classes.submitBtn}
         >

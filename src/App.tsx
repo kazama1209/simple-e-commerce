@@ -30,7 +30,7 @@ const App: React.FC = () => {
     setCartItems((cartItems: CartItemType[]) => {
       const cartItem = cartItems.find((item) => item.id === id)
 
-      // すでに同じ商品が入っている場合は数量を追加
+      // すでに同じ商品が入っている場合は数量を増加
       if (cartItem) {
         return cartItems.map((item) => {
           if (item.id !== id) return item
@@ -39,17 +39,18 @@ const App: React.FC = () => {
       }
 
       // そうでない場合は新たに追加
-      const item = products.find(item => item.id === id)
-      return [...cartItems, { ...item, quantity: 1 }]
+      const newCartItem = products.find(item => item.id === id)
+      return [...cartItems, { ...newCartItem, quantity: 1 }]
     })
   }
 
+  // 合計金額を算出
   const totalCost = cartItems.reduce(
     (acc: number, item: CartItemType) => acc + (item.price || 0) * item.quantity,
     0
   )
 
-  const stripePublicKey = process.env.REACT_APP_STRIPE_PUBLIC_KEY || ""
+  const stripePublicKey = process.env.REACT_APP_STRIPE_PUBLIC_KEY || "" // Stripe APIの公開鍵
   const stripePromise = loadStripe(stripePublicKey)
 
   return (

@@ -11,6 +11,7 @@ exports.handler = async (event, context, callback) => {
 
   const data = JSON.parse(event.body)
 
+  // トークンが取得できなかったり金額が1円に満たなかった場合はエラー
   if (!data.token || parseInt(data.amount) < 1) {
     return callback(null, {
       statusCode: 400,

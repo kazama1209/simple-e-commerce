@@ -35,7 +35,7 @@ exports.handler = async (event, context, callback) => {
         "Access-Control-Allow-Headers": "Content-Type"
       },
       body: JSON.stringify({
-        client_secret: client_secret // 取引を成立させるためのclient_secretを返す
+        client_secret: client_secret // 取引を確認するためのclient_secretを返す
       })
     })
   })

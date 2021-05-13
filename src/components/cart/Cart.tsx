@@ -28,6 +28,7 @@ interface CartProps {
 const Cart: React.FC<CartProps> = ({ cartItems, totalCost, setCartItems }) => {
   const classes = useStyles()
 
+  // カート内の商品をクリア
   const handleResetCart = () => {
     setCartItems([])
   }
