@@ -104,7 +104,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ stripe, totalCost}) => {
       const res = await fetch("/.netlify/functions/charge", {
         method: "POST",
         body: JSON.stringify({
-          amount: totalCost * 100,
+          amount: totalCost,
           token: token.id,
         })
       })

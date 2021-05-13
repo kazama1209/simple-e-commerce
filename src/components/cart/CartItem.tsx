@@ -39,7 +39,7 @@ const CartItem: React.FC<CartItemProps> = ({ title, quantity, cost }) => {
           {quantity}
         </Grid>
         <Grid item xs={3} className={classes.item}>
-          ${cost}
+          ¥{cost}
         </Grid>
       </Grid>
       <Divider className={classes.divider} />

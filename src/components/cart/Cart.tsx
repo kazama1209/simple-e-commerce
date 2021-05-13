@@ -47,7 +47,7 @@ const Cart: React.FC<CartProps> = ({ cartItems, totalCost, setCartItems }) => {
                 quantity={cartItem.quantity}
               />
             ))}
-            <h4>Total cost: ${totalCost.toFixed(2)}</h4>
+            <h4>Total cost: ¥{totalCost.toFixed(2)}</h4>
             <Button
               type="submit"
               variant="outlined"

@@ -59,7 +59,7 @@ const Product: React.FC<ProductProps> = ({ handleAddToCart, price, title, descri
           {description}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p" align="center">
-          ${price}
+          ¥{price}
         </Typography>
       </CardContent>
       <Box className={classes.box}>
