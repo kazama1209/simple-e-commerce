@@ -3,7 +3,7 @@ import Stripe from "stripe"
 const secretKey = process.env.STRIPE_SECRET_KEY
 const stripe = new Stripe(secretKey, { apiVersion: "2020-08-27" })
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context, callback) => {
   // POSTメソッド以外は拒否
   if (event.httpMethod !== "POST") {
     return callback(null, { statusCode: 405, body: "Method Not Allowed" })
@@ -20,8 +20,7 @@ exports.handler = (event, context, callback) => {
     })
   }
 
-  stripe.charges
-  .create({
+  await stripe.charges.create({
     amount: parseInt(data.amount),
     currency: "jpy",
     description: "Sample Shop",
